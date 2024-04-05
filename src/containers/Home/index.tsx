@@ -15,11 +15,6 @@ export default function Home() {
           </select>
         </div>
 
-        <div className="flex w-full justify-between">
-          <p>3.28</p>
-          <p>Bakiye: 101.01</p>
-        </div>
-
         <div className="flex w-full justify-evenly gap-2.5 leading-loose">
           <button className="flex-1 rounded-lg border border-[#1b2132] px-2 hover:bg-[#131a2a]">25%</button>
           <button className="flex-1 rounded-lg border border-[#1b2132] px-2 hover:bg-[#131a2a]">50%</button>
@@ -35,11 +30,6 @@ export default function Home() {
             <option value="btc1">STR</option>
             <option value="btc2">SEP</option>
           </select>
-        </div>
-
-        <div className="flex w-full justify-between">
-          <p>3.28</p>
-          <p>Bakiye: 101.01</p>
         </div>
 
         <div className="flex w-full justify-between">

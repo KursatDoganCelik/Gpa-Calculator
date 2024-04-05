@@ -2,7 +2,7 @@ import { RefreshCw } from 'lucide-react';
 import React from 'react';
 export default function Home() {
   return (
-    <main className="flex h-full w-full items-center justify-center">
+    <main className="flex h-full w-full items-center justify-center text-white">
       <div
         id="container"
         className="flex h-fit w-full max-w-[444px] flex-col items-center gap-4 rounded-lg bg-[#0d111c] p-4"

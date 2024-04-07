@@ -10,15 +10,15 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-white">
+    <header className="bg-white dark:bg-black">
       <nav className="mx-auto flex items-center justify-between px-3 py-3 md:px-8">
-        <Image className="size-12" src={logo} alt="Gno Calculator" />
+        <Image className="size-12 rounded bg-white" src={logo} alt="Gno Calculator" />
 
         <button onClick={() => setMobileMenuOpen(true)} className="flex cursor-pointer p-3 md:hidden">
-          <BsList className="size-6 text-gray-700" />
+          <BsList className="size-6 text-black dark:text-white" />
         </button>
 
-        <div className="hidden text-sm font-semibold leading-6 text-gray-900 md:flex md:gap-6">
+        <div className="hidden text-sm font-semibold leading-6 text-black dark:text-white md:flex md:gap-6">
           <Link href="/" className="m-2 p-1">
             Home
           </Link>
@@ -36,31 +36,31 @@ export default function Header() {
       </nav>
 
       {mobileMenuOpen && (
-        <div className="fixed right-0 top-0 z-10 w-80 bg-white px-6 py-6 md:hidden">
+        <div className="rounded fixed right-0 top-0 z-10 w-80 bg-black dark:bg-white px-6 py-6 md:hidden">
           <div className="flex items-center justify-between">
-            <ThemeSwitch />
-            <button onClick={() => setMobileMenuOpen(false)} className="-m-2.5 rounded-md p-2.5 text-gray-700">
-              <BsXLg className="size-6 text-gray-700" />
+            <ThemeSwitch className='dark:text-black text-white' />
+            <button onClick={() => setMobileMenuOpen(false)} className="-m-2.5 rounded-md p-2.5 text-black dark:text-white">
+              <BsXLg className="size-6 dark:text-black text-white" />
             </button>
           </div>
 
-          <div className=" divide-y ">
+          <div className="text-white dark:text-black divide-y ">
             <div className="space-y-2 pt-6">
               <Link
                 href="/"
-                className="-mx-3 block rounded-md px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
+                className="-mx-3 block rounded-md px-3 py-2 text-base font-semibold hover:bg-gray-500/20"
               >
                 Home
               </Link>
               <Link
                 href="/"
-                className="-mx-3 block rounded-md px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
+                className="-mx-3 block rounded-md px-3 py-2 text-base font-semibold hover:bg-gray-500/20"
               >
                 Contact
               </Link>
               <Link
                 href="/"
-                className="-mx-3 block rounded-md px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
+                className="-mx-3 block rounded-md px-3 py-2 text-base font-semibold hover:bg-gray-500/20"
               >
                 Help
               </Link>
@@ -68,7 +68,7 @@ export default function Header() {
 
             <Link
               href="/"
-              className="-mx-3 mt-2 block rounded-md px-3 py-2.5 text-base font-semibold text-gray-900 hover:bg-gray-50"
+              className="-mx-3 mt-2 block rounded-md px-3 py-2.5 text-base font-semibold hover:bg-gray-500/20"
             >
               Login
             </Link>

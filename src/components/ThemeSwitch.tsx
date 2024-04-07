@@ -15,7 +15,7 @@ export default function ThemeSwitch(props: { className?: string }) {
   if (resolvedTheme === 'dark') {
     return (
       <BsSun
-        className={`${props.className} size-6 cursor-pointer bg-white text-black`}
+        className={`${props.className} size-6 cursor-pointer`}
         onClick={() => setTheme('light')}
       />
     );
@@ -24,7 +24,7 @@ export default function ThemeSwitch(props: { className?: string }) {
   if (resolvedTheme === 'light') {
     return (
       <BsMoon
-        className={`${props.className} size-6 cursor-pointer bg-white text-black`}
+        className={`${props.className} size-6 cursor-pointer`}
         onClick={() => setTheme('dark')}
       />
     );

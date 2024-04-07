@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  @apply transition-colors;
+header,
+footer,
+main {
+  @apply transition-colors duration-300;
 }

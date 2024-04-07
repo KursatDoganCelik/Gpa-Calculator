@@ -36,32 +36,26 @@ export default function Header() {
       </nav>
 
       {mobileMenuOpen && (
-        <div className="rounded fixed right-0 top-0 z-10 w-80 bg-black dark:bg-white px-6 py-6 md:hidden">
+        <div className="fixed right-0 top-0 z-10 w-80 rounded bg-black px-6 py-6 dark:bg-white sm:w-60 md:hidden">
           <div className="flex items-center justify-between">
-            <ThemeSwitch className='dark:text-black text-white' />
-            <button onClick={() => setMobileMenuOpen(false)} className="-m-2.5 rounded-md p-2.5 text-black dark:text-white">
-              <BsXLg className="size-6 dark:text-black text-white" />
+            <ThemeSwitch className="text-white dark:text-black" />
+            <button
+              onClick={() => setMobileMenuOpen(false)}
+              className="-m-2.5 rounded-md p-2.5 text-black dark:text-white"
+            >
+              <BsXLg className="size-6 text-white dark:text-black" />
             </button>
           </div>
 
-          <div className="text-white dark:text-black divide-y ">
+          <div className="divide-y text-white dark:text-black ">
             <div className="space-y-2 pt-6">
-              <Link
-                href="/"
-                className="-mx-3 block rounded-md px-3 py-2 text-base font-semibold hover:bg-gray-500/20"
-              >
+              <Link href="/" className="-mx-3 block rounded-md px-3 py-2 text-base font-semibold hover:bg-gray-500/20">
                 Home
               </Link>
-              <Link
-                href="/"
-                className="-mx-3 block rounded-md px-3 py-2 text-base font-semibold hover:bg-gray-500/20"
-              >
+              <Link href="/" className="-mx-3 block rounded-md px-3 py-2 text-base font-semibold hover:bg-gray-500/20">
                 Contact
               </Link>
-              <Link
-                href="/"
-                className="-mx-3 block rounded-md px-3 py-2 text-base font-semibold hover:bg-gray-500/20"
-              >
+              <Link href="/" className="-mx-3 block rounded-md px-3 py-2 text-base font-semibold hover:bg-gray-500/20">
                 Help
               </Link>
             </div>

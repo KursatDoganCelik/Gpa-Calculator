@@ -36,7 +36,7 @@ export default function Header() {
       </nav>
 
       {mobileMenuOpen && (
-        <div className="fixed right-0 top-0 z-10 w-80 rounded bg-black px-6 py-6 dark:bg-white sm:w-60 md:hidden">
+        <div className="fixed right-0 top-0 z-10 w-40 rounded bg-black px-6 py-6 dark:bg-white sm:w-80 md:hidden">
           <div className="flex items-center justify-between">
             <ThemeSwitch className="text-white dark:text-black" />
             <button

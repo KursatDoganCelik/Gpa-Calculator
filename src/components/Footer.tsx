@@ -1,6 +1,5 @@
 import { Facebook, Instagram, Twitch, Twitter } from 'lucide-react';
 
-<Instagram />;
 export default function Footer() {
   return (
     <footer className="flex justify-between bg-white p-6 text-black md:px-8">

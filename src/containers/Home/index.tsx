@@ -2,14 +2,14 @@ import { RefreshCw } from 'lucide-react';
 import React from 'react';
 export default function Home() {
   return (
-    <main className="flex h-full w-full items-center justify-center text-white">
+    <main className="flex h-full w-full items-center justify-center text-white dark:text-black">
       <div
         id="container"
-        className="flex h-fit w-full max-w-[444px] flex-col items-center gap-4 rounded-lg bg-[#0d111c] p-4"
+        className="flex h-fit w-full max-w-[444px] flex-col items-center gap-4 rounded-lg bg-[#0d111c] p-4 dark:bg-white"
       >
         <div className="flex w-full items-center justify-between">
           <p className="text-3xl">0.001</p>
-          <select className="cursor-pointer rounded-lg bg-[#131a2a] px-3 py-2 hover:bg-[#293249]">
+          <select className="cursor-pointer rounded-lg bg-[#131a2a] px-3 py-2 hover:bg-[#293249] dark:text-white">
             <option value="btc1">ETH</option>
             <option value="btc2">SEP</option>
           </select>
@@ -22,11 +22,11 @@ export default function Home() {
           <button className="flex-1 rounded-lg border border-[#1b2132] px-2 hover:bg-[#131a2a]">100%</button>
         </div>
 
-        <RefreshCw size={24} className="cursor-pointer duration-500 hover:rotate-180" />
+        <RefreshCw className="cursor-pointer duration-300 hover:rotate-180" />
 
         <div className="flex w-full items-center justify-between">
           <p className="text-3xl text-white/50">123.01</p>
-          <select className="cursor-pointer rounded-lg bg-[#131a2a] px-3 py-2 hover:bg-[#293249]">
+          <select className="cursor-pointer rounded-lg bg-[#131a2a] px-3 py-2 hover:bg-[#293249] dark:text-white">
             <option value="btc1">STR</option>
             <option value="btc2">SEP</option>
           </select>

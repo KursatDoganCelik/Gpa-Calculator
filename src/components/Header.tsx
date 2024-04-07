@@ -1,10 +1,11 @@
-"use client";
+'use client';
 import { useState } from 'react';
 import { Dialog, Popover } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '/public/images/logo.png';
+import ThemeSwitch from './ThemeSwitch';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -13,7 +14,7 @@ export default function Header() {
     <header className="bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 md:px-8" aria-label="Global">
         <div className="flex md:flex-1">
-          <Link href="#" className="-m-1.5 p-1.5">
+          <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Gno Calculator</span>
             <Image className="h-8 w-auto" src={logo} alt="Logo" />
           </Link>
@@ -29,6 +30,7 @@ export default function Header() {
           </button>
         </div>
         <Popover.Group className="hidden md:flex md:gap-x-12">
+          <ThemeSwitch />
           <Link href="/features" className="text-sm font-semibold leading-6 text-gray-900">
             Features
           </Link>

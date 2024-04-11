@@ -3,7 +3,9 @@
 @tailwind utilities;
 
 header,
-footer,
+footer {
+  @apply transition-colors duration-700;
+}
 main {
   @apply transition-colors duration-300;
 }

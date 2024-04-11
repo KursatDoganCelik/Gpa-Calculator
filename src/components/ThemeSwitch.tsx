@@ -10,23 +10,13 @@ export default function ThemeSwitch(props: { className?: string }) {
   const { setTheme, resolvedTheme } = useTheme();
 
   useEffect(() => setMounted(true), []);
-  if (!mounted) return <Image src={logo} width={24} height={24} alt="ehehe" />;
+  if (!mounted) return <Image src={logo} width={24} height={24} className="m-3" alt="Dark Ligth Mode" />;
 
   if (resolvedTheme === 'dark') {
-    return (
-      <BsSun
-        className={`${props.className} size-6 cursor-pointer`}
-        onClick={() => setTheme('light')}
-      />
-    );
+    return <BsSun className={`${props.className} size-6 cursor-pointer`} onClick={() => setTheme('light')} />;
   }
 
   if (resolvedTheme === 'light') {
-    return (
-      <BsMoon
-        className={`${props.className} size-6 cursor-pointer`}
-        onClick={() => setTheme('dark')}
-      />
-    );
+    return <BsMoon className={`${props.className} size-6 cursor-pointer`} onClick={() => setTheme('dark')} />;
   }
 }

@@ -16,8 +16,7 @@ export default function CourseBox({
   semesters: Semester[];
   setSemesters: React.Dispatch<React.SetStateAction<Semester[]>>;
 }) {
-  const style =
-    'w-full border-0 p-2 shadow-sm ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-indigo-600';
+  const style = 'border-0 p-2 shadow-sm ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-indigo-600';
 
   const handleCourseChange = (
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>,
@@ -45,15 +44,15 @@ export default function CourseBox({
           placeholder="Ders Adı"
           value={course.DersAdı}
           onChange={(e) => handleCourseChange(e, 'DersAdı')}
-          className={`${style}`}
+          className={`w-full ${style}`}
         />
       </td>
 
-      <td className="w-20">
+      <td>
         <select
           autoComplete="off"
           onChange={(e) => handleCourseChange(e, 'Not')}
-          className={`rm-arrow w-20 text-center ${style}`}
+          className={`rm-arrow w-16 text-center ${style}`}
         >
           <option value="" hidden>
             Not
@@ -66,7 +65,7 @@ export default function CourseBox({
         </select>
       </td>
 
-      <td className="w-20">
+      <td>
         <input
           type="number"
           autoComplete="off"
@@ -74,7 +73,7 @@ export default function CourseBox({
           min={1}
           value={course.Kredi}
           onChange={(e) => handleCourseChange(e, 'Kredi')}
-          className={`rm-arrow w-20 text-center ${style}`}
+          className={`rm-arrow w-16 text-center ${style}`}
         />
       </td>
       <td>

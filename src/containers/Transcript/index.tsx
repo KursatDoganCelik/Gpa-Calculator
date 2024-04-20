@@ -1,14 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import SemesterBox from './components/SemesterBox';
 import { Semester } from '@/config/types';
 import { Button } from '@/components/ui/button';
+import { maxSemesterLength } from '@/config';
 
 export default function Transcript() {
+  //customHook -> useSemester - useCourses?
   const [semesters, setSemesters] = useState<Semester[]>([{ courses: [{ DersAdı: '', Not: '', Kredi: '' }] }]);
-
-  const maxSemesterLength = 12;
 
   const handleAddSemester = () => {
     const newSemester = { courses: [{ DersAdı: '', Not: '', Kredi: '' }] };

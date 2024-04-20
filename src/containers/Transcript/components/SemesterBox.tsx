@@ -34,8 +34,8 @@ export default function SemesterBox({
     setSemesters(updatedSemesters);
   };
 
+  // useEffect, useState kullan.
   let totalCredit = 0;
-
   semesters[semesterIndex].courses.forEach((course) => {
     totalCredit += parseInt(course.Kredi || '0');
   });

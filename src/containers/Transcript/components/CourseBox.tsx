@@ -38,24 +38,22 @@ export default function CourseBox({
 
   return (
     <tr>
-      <td className="w-full pb-2">
+      <td className="w-full">
         <input
           type="text"
-          name="name"
           autoComplete="off"
           placeholder="Ders Adı"
           value={course.DersAdı}
           onChange={(e) => handleCourseChange(e, 'DersAdı')}
-          className={`ml-1.5 ${style}`}
+          className={`${style}`}
         />
       </td>
 
-      <td className="pb-2">
+      <td className="w-20">
         <select
-          name="note"
           autoComplete="off"
           onChange={(e) => handleCourseChange(e, 'Not')}
-          className={`rm-arrow ml-1.5 w-20 text-center ${style}`}
+          className={`rm-arrow w-20 text-center ${style}`}
         >
           <option value="" hidden>
             Not
@@ -68,10 +66,9 @@ export default function CourseBox({
         </select>
       </td>
 
-      <td className="pb-2">
+      <td className="w-20">
         <input
           type="number"
-          name="credit"
           autoComplete="off"
           placeholder="Kredi"
           min={1}
@@ -80,8 +77,13 @@ export default function CourseBox({
           className={`rm-arrow w-20 text-center ${style}`}
         />
       </td>
-      <td className="pb-2">
-        <Button onClick={() => removeCourse(courseIndex)} variant={'destructive'} size={'icon'} className="mx-1.5">
+      <td>
+        <Button
+          onClick={() => removeCourse(courseIndex)}
+          className="rounded-none border-none dark:bg-[#121212]"
+          variant={'outline'}
+          size={'icon'}
+        >
           <Trash size={16} />
         </Button>
       </td>

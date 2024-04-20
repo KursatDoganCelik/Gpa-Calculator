@@ -1,11 +1,12 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { Course } from '@/config/types';
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
-export const calculateGPA = (courses: any[]) => {
+export const calculateGPA = (courses: Course[]) => {
   let totalCredit = 0;
   let weightedCredits = 0;
 
@@ -13,8 +14,6 @@ export const calculateGPA = (courses: any[]) => {
     const credit = parseInt(course.Kredi || '0');
     weightedCredits += credit * +course.Not;
     totalCredit += credit;
-
-    console.log('credit', credit, 'weightedCredits', weightedCredits, 'totalCredit', totalCredit)
   });
 
   return weightedCredits / totalCredit;

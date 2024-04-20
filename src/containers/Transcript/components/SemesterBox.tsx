@@ -46,63 +46,64 @@ export default function SemesterBox({
       return Object.values(course).some((value) => (value as string).trim() === '');
     });
 
-    isEmpty && alert('Lütfen ders bilgisi giriniz.');
-    isAnyEmpty && alert('Tüm derslerin bilgilerini doldurun.');
-    setGpa(() => calculateGPA(semesters[semesterIndex].courses));
+    isEmpty
+      ? alert('Lütfen ders bilgisi giriniz.')
+      : isAnyEmpty
+        ? alert('Tüm derslerin bilgilerini doldurun.')
+        : setGpa(() => calculateGPA(semesters[semesterIndex].courses));
   };
 
   return (
-    <div className="h-auto ring-2">
-      <div className="flex items-center justify-between p-2">
-        <Button onClick={removeSemester} variant={'destructive'} size={'sm'}>
-          <Trash size={16} className="mr-2" />
-          <p>Yarıyıl Sil</p>
-        </Button>
-        <h1 className="text-xl font-semibold leading-relaxed">{semesterIndex + 1}. Yarıyıl</h1>
-        <Button onClick={addCourse} disabled={isDisabled} variant={'secondary'} size={'sm'}>
-          <BsPlusCircle className="mr-2" size={16} />
-          <p>Ders Ekle</p>
-        </Button>
+    <div className="flex h-fit min-h-[300px] flex-col justify-between rounded-sm bg-white p-2 dark:bg-black">
+      <div>
+        <div className="flex items-center justify-between">
+          <Button onClick={removeSemester} variant={'destructive'} size={'sm'}>
+            <Trash size={16} />
+          </Button>
+          <h1 className="text-xl font-semibold leading-relaxed">{semesterIndex + 1}. Yarıyıl</h1>
+          <Button onClick={addCourse} disabled={isDisabled} variant={'secondary'} size={'sm'}>
+            <BsPlusCircle size={16} />
+          </Button>
+        </div>
+        <table className="h-fit w-full">
+          <thead>
+            <tr>
+              <th className="pb-2 pl-2 pt-4 text-left">Ders Adı</th>
+              <th className="pb-2 pt-4 text-center">Not</th>
+              <th className="pb-2 pt-4 text-center">Kredi</th>
+              <th />
+            </tr>
+          </thead>
+
+          <tbody className="w-full">
+            {semesters[semesterIndex].courses.map((course, courseIndex) => (
+              <CourseBox
+                key={courseIndex}
+                semesterIndex={semesterIndex}
+                courseIndex={courseIndex}
+                course={course}
+                semesters={semesters}
+                setSemesters={setSemesters}
+              />
+            ))}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan={4} className="py-2"></td>
+            </tr>
+          </tfoot>
+        </table>
       </div>
 
-      <table className="h-fit w-full">
-        <thead>
-          <tr>
-            <th className="pb-2 pl-2 pt-4 text-left">Ders Adı</th>
-            <th className="pb-2 pt-4 text-center">Not</th>
-            <th className="pb-2 pt-4 text-center">Kredi</th>
-            <th />
-          </tr>
-        </thead>
-
-        <tbody className="w-full">
-          {semesters[semesterIndex].courses.map((course, courseIndex) => (
-            <CourseBox
-              key={courseIndex}
-              semesterIndex={semesterIndex}
-              courseIndex={courseIndex}
-              course={course}
-              semesters={semesters}
-              setSemesters={setSemesters}
-            />
-          ))}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colSpan={4} className="p-2">
-              <div className={`flex items-center ${gpa ? 'justify-between' : 'justify-end'}`}>
-                {gpa && <p>{`${semesterIndex + 1}. Yarıyıl Genel Not Ortalamanız: ${gpa.toFixed(2)}`}</p>}
-                <div className="flex items-center gap-5">
-                  <p>Toplam Kredi: {totalCredit}</p>
-                  <Button onClick={handleConfirmation} variant={'outline'}>
-                    Onayla
-                  </Button>
-                </div>
-              </div>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+      <div className={`flex w-full items-center self-end ${gpa ? 'justify-between' : 'justify-end'}`}>
+        {gpa && <p>{`${semesterIndex + 1}. Yarıyıl Genel Not Ortalamanız: ${gpa.toFixed(2)}`}</p>}
+        <div className="flex items-center gap-5">
+          <p>Toplam Kredi: {totalCredit}</p>
+          <Button onClick={handleConfirmation} variant={'outline'}>
+            Onayla
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

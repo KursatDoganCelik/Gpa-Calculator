@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="flex h-full flex-col items-center justify-evenly gap-5 bg-gray-100 p-5 dark:bg-gray-900 sm:flex-row ">
+    <main className="flex h-full flex-col items-center justify-evenly gap-5 bg-gray-100 p-5 dark:bg-gray-900 sm:flex-row ">
       <div className="flex size-64 flex-col items-center justify-center gap-4 rounded-2xl border-4 border-dashed bg-white p-6 dark:bg-black dark:text-white md:size-80 md:p-8">
         <BsFileEarmarkArrowDown className="size-20 md:mb-4" />
         <button className="h-auto w-full cursor-pointer rounded border-4 border-solid p-1.5"> Dosya Yükle </button>
@@ -28,6 +28,6 @@ export default function Home() {
           <li>Yarıyıl Ekle Butonu</li>
         </ul>
       </div>
-    </div>
+    </main>
   );
 }

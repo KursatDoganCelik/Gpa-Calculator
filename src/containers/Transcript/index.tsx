@@ -1,23 +1,30 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SemesterBox from './components/SemesterBox';
+import { Course, Semester } from '@/config/types';
 
 export default function Transcript() {
-  const [semesterKeys, setSemesterKeys] = useState<number[]>([1]);
+  const [semesters, setSemesters] = useState<Semester[]>([]);
+
   const maxSemesterLength = 12;
 
-  function handleAddSemesterClick() {
-    semesterKeys.length < maxSemesterLength && setSemesterKeys((prevKeys) => [...prevKeys, prevKeys.length + 1]);
-  }
+  const handleAddSemester = () => {
+    const newSemester = { courses: [] };
+    setSemesters([...semesters, newSemester]);
+  };
+
+  useEffect(() => {
+    console.log(semesters);
+  }, [semesters]);
   return (
     <div className="m-10 grid grid-cols-1 gap-10 md:grid-cols-2 min-[1920px]:grid-cols-3">
-      {semesterKeys.map((key) => (
-        <SemesterBox key={key} index={key} />
+      {semesters.map((semester, index) => (
+        <SemesterBox key={index} semesterIndex={index} semesters={semesters} setSemesters={setSemesters} />
       ))}
 
-      {semesterKeys.length < maxSemesterLength && (
-        <button className="ring-1" onClick={handleAddSemesterClick}>
+      {semesters.length < maxSemesterLength && (
+        <button className="ring-1" onClick={handleAddSemester}>
           Yarıyıl Ekle
         </button>
       )}

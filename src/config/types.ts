@@ -1,5 +1,10 @@
 export interface Course {
-  name: string;
-  note: string;
-  credit: number | string;
+  DersAdı: string;
+  Not: string;
+  Kredi: string;
+}
+
+
+export interface Semester {
+  courses: Course[]
 }

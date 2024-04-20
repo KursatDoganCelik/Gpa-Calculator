@@ -1,7 +1,7 @@
 export interface Course {
-  DersAdı: string;
-  Not: string;
-  Kredi: string;
+  name: string;
+  note: string;
+  credit: string;
 }
 
 

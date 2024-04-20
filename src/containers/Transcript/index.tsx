@@ -1,19 +1,14 @@
 'use client';
 
-import { useState } from 'react';
-import SemesterBox from './components/SemesterBox';
-import { Semester } from '@/config/types';
-import { Button } from '@/components/ui/button';
 import { maxSemesterLength } from '@/config';
+import { Button } from '@/components/ui/button';
+import SemesterBox from './components/SemesterBox';
+import { useSemesters } from '@/hooks/useSemesters';
 
 export default function Transcript() {
-  //customHook -> useSemester - useCourses?
-  const [semesters, setSemesters] = useState<Semester[]>([{ courses: [{ DersAdı: '', Not: '', Kredi: '' }] }]);
+  const { semesters, handleAddSemester } = useSemesters();
 
-  const handleAddSemester = () => {
-    const newSemester = { courses: [{ DersAdı: '', Not: '', Kredi: '' }] };
-    setSemesters([...semesters, newSemester]);
-  };
+  console.log(semesters)
 
   return (
     <main className="flex flex-col gap-3 bg-gray-100 px-2 py-3 dark:bg-gray-900 sm:px-10">
@@ -27,7 +22,7 @@ export default function Transcript() {
       </div>
       <div className="grid select-none grid-cols-1 gap-10 md:grid-cols-2 min-[1920px]:grid-cols-3">
         {semesters.map((_, index) => (
-          <SemesterBox key={index} semesterIndex={index} semesters={semesters} setSemesters={setSemesters} />
+          <SemesterBox key={index} semesterIndex={index} />
         ))}
 
         <div

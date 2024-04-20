@@ -2,48 +2,30 @@ import { Note1 } from '@/constants/Note1';
 import { Button } from '@/components/ui/button';
 import { Trash } from 'lucide-react';
 import { Course, Semester } from '@/config/types';
+import { useSemesters } from '@/hooks/useSemesters';
 
 export default function CourseBox({
   semesterIndex,
   courseIndex,
   course,
-  semesters,
-  setSemesters,
 }: {
   semesterIndex: number;
   courseIndex: number;
   course: Course;
-  semesters: Semester[];
-  setSemesters: React.Dispatch<React.SetStateAction<Semester[]>>;
 }) {
-  const style = 'border-0 p-2 shadow-sm ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-indigo-600';
-
-  const handleCourseChange = (
-    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>,
-    field: keyof Course
-  ) => {
-    const updatedSemesters = [...semesters];
-    updatedSemesters[semesterIndex].courses[courseIndex][field] = e.target.value;
-    setSemesters(updatedSemesters);
-  };
-
-  const removeCourse = (courseIndex: number) => {
-    const updatedSemesters = [...semesters];
-    updatedSemesters[semesterIndex].courses = updatedSemesters[semesterIndex].courses.filter(
-      (_, index) => index !== courseIndex
-    );
-    setSemesters(updatedSemesters);
-  };
+  const { handleCourseChange } = useSemesters();
+  const style =
+    'border-0 p-2 bg-transparent shadow-sm ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-indigo-600';
 
   return (
-    <tr>
+    <tr className="even:bg-[#3b3b3b]">
       <td className="w-full">
         <input
           type="text"
           autoComplete="off"
           placeholder="Ders Adı"
-          value={course.DersAdı}
-          onChange={(e) => handleCourseChange(e, 'DersAdı')}
+          value={course.name}
+          onChange={(e) => handleCourseChange(e, 'name', semesterIndex, courseIndex)}
           className={`w-full ${style}`}
         />
       </td>
@@ -51,7 +33,7 @@ export default function CourseBox({
       <td>
         <select
           autoComplete="off"
-          onChange={(e) => handleCourseChange(e, 'Not')}
+          onChange={(e) => handleCourseChange(e, 'note', semesterIndex, courseIndex)}
           className={`rm-arrow w-16 text-center ${style}`}
         >
           <option value="" hidden>
@@ -71,21 +53,21 @@ export default function CourseBox({
           autoComplete="off"
           placeholder="Kredi"
           min={1}
-          value={course.Kredi}
-          onChange={(e) => handleCourseChange(e, 'Kredi')}
+          value={course.credit}
+          onChange={(e) => handleCourseChange(e, 'credit', semesterIndex, courseIndex)}
           className={`rm-arrow w-16 text-center ${style}`}
         />
       </td>
-      <td>
+      {/* <td>
         <Button
-          onClick={() => removeCourse(courseIndex)}
-          className="rounded-none border-none dark:bg-[#121212]"
+          onClick={() => removeCourse(courseIndex, semesterIndex)}
+          className="rounded-none border-none bg-transparent hover:bg-transparent hover:text-red-500"
           variant={'outline'}
           size={'icon'}
         >
           <Trash size={16} />
         </Button>
-      </td>
+      </td> */}
     </tr>
   );
 }

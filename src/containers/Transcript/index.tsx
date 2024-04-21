@@ -3,12 +3,13 @@
 import { maxSemesterLength } from '@/config';
 import { Button } from '@/components/ui/button';
 import SemesterBox from './components/SemesterBox';
-import { useSemesters } from '@/hooks/useSemesters';
+import { useContext } from 'react';
+import { SemesterContext } from '@/context/SemesterContext';
 
 export default function Transcript() {
-  const { semesters, handleAddSemester } = useSemesters();
+  const { semesters, addSemester } = useContext(SemesterContext);
 
-  console.log(semesters)
+  console.log('index semesters: ', semesters);
 
   return (
     <main className="flex flex-col gap-3 bg-gray-100 px-2 py-3 dark:bg-gray-900 sm:px-10">
@@ -29,7 +30,7 @@ export default function Transcript() {
           className={`flex items-center justify-center gap-5 self-center ${semesters.length % 2 !== 0 ? 'flex-col max-md:flex-row' : 'flex-row'}`}
         >
           {semesters.length < maxSemesterLength && (
-            <Button variant="outline" className="w-40" size="lg" onClick={handleAddSemester}>
+            <Button variant="outline" className="w-40" size="lg" onClick={addSemester}>
               Yarıyıl Ekle
             </Button>
           )}

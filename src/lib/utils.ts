@@ -11,8 +11,8 @@ export const calculateGPA = (courses: Course[]) => {
   let weightedCredits = 0;
 
   courses.forEach((course) => {
-    const credit = parseInt(course.Kredi || '0');
-    weightedCredits += credit * +course.Not;
+    const credit = parseInt(course.credit || '0');
+    weightedCredits += credit * +course.note;
     totalCredit += credit;
   });
 

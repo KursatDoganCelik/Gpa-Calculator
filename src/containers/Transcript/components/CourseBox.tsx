@@ -1,8 +1,9 @@
 import { Note1 } from '@/constants/Note1';
 import { Button } from '@/components/ui/button';
 import { Trash } from 'lucide-react';
-import { Course, Semester } from '@/config/types';
-import { useSemesters } from '@/hooks/useSemesters';
+import { Course } from '@/config/types';
+import { useContext } from 'react';
+import { SemesterContext } from '@/context/SemesterContext';
 
 export default function CourseBox({
   semesterIndex,
@@ -13,7 +14,7 @@ export default function CourseBox({
   courseIndex: number;
   course: Course;
 }) {
-  const { handleCourseChange } = useSemesters();
+  const { handleCourseChange, removeCourse } = useContext(SemesterContext);
   const style =
     'border-0 p-2 bg-transparent shadow-sm ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-indigo-600';
 
@@ -58,16 +59,18 @@ export default function CourseBox({
           className={`rm-arrow w-16 text-center ${style}`}
         />
       </td>
-      {/* <td>
-        <Button
-          onClick={() => removeCourse(courseIndex, semesterIndex)}
-          className="rounded-none border-none bg-transparent hover:bg-transparent hover:text-red-500"
-          variant={'outline'}
-          size={'icon'}
-        >
-          <Trash size={16} />
-        </Button>
-      </td> */}
+      {
+        <td>
+          <Button
+            onClick={() => removeCourse(courseIndex, semesterIndex)}
+            className="rounded-none border-none bg-transparent hover:bg-transparent hover:text-red-500"
+            variant={'outline'}
+            size={'icon'}
+          >
+            <Trash size={16} />
+          </Button>
+        </td>
+      }
     </tr>
   );
 }

@@ -1,14 +1,32 @@
+'use client';
+
 import CourseBox from './CourseBox';
 import { BsPlusCircle } from 'react-icons/bs';
 import { Button } from '@/components/ui/button';
 import { Trash } from 'lucide-react';
 import { maxCourseLength } from '@/config';
-import { useSemesters } from '@/hooks/useSemesters';
+import { useContext, useMemo } from 'react';
+import { SemesterContext } from '@/context/SemesterContext';
+import { calculateGPA } from '@/lib/utils';
 
 export default function SemesterBox({ semesterIndex }: { semesterIndex: number }) {
-  const { semesters, removeSemester, addCourse, totalCredit, handleConfirmation, gpa } = useSemesters();
+  const { semesters, removeSemester, addCourse, handleConfirmation } = useContext(SemesterContext);
 
   const isDisabled = semesters[semesterIndex]?.courses.length >= maxCourseLength;
+
+  const thisSemesterTotalCredit = semesters[semesterIndex]?.courses.reduce(
+    (acc, course) => acc + Number(course.credit),
+    0
+  );
+
+  const isAnyEmpty = semesters[semesterIndex!].courses.some((course) => {
+    return Object.values(course).some((value) => (value as string).trim() === '');
+  });
+
+  const thisSemesterGpa = useMemo(
+    () => (!isAnyEmpty ? calculateGPA(semesters[semesterIndex].courses) : undefined),
+    [JSON.stringify(semesters[semesterIndex].courses), isAnyEmpty]
+  );
 
   return (
     <div className="flex h-fit min-h-[300px] flex-col justify-between rounded-sm bg-white py-2 dark:bg-black">
@@ -45,13 +63,12 @@ export default function SemesterBox({ semesterIndex }: { semesterIndex: number }
         </table>
       </div>
 
-      <div className={`flex w-full items-center self-end ${gpa ? 'justify-between' : 'justify-end'}`}>
-        {gpa && <p>{`${semesterIndex! + 1}. Yarıyıl Genel Not Ortalamanız: ${gpa.toFixed(2)}`}</p>}
+      <div className={`flex w-full items-center self-end px-2 ${thisSemesterGpa ? 'justify-between' : 'justify-end'}`}>
+        {thisSemesterGpa && (
+          <p>{`${semesterIndex! + 1}. Yarıyıl Genel Not Ortalamanız: ${thisSemesterGpa.toFixed(2)}`}</p>
+        )}
         <div className="flex items-center gap-5">
-          <p>Toplam Kredi: {totalCredit}</p>
-          <Button onClick={() => handleConfirmation(semesterIndex)} variant={'outline'}>
-            Onayla
-          </Button>
+          <p>Toplam Kredi: {thisSemesterTotalCredit}</p>
         </div>
       </div>
     </div>

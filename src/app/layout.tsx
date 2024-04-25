@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Gno Calculator',
-  description: 'This is a calculator for gpa.',
+  description: 'This is calculator for gpa.',
 };
 
 export default function RootLayout({
@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
-      <body className="grid min-h-screen grid-rows-[auto_1fr_auto]">
+      <body className=" grid min-h-screen grid-rows-[auto_1fr_auto]">
         <Providers>
           <Header />
           {children}

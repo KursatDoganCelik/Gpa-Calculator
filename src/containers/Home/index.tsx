@@ -1,32 +1,21 @@
-import { BsFileEarmarkArrowDown } from 'react-icons/bs';
-import Link from 'next/link';
+'use client';
+import { SemesterContext } from '@/context/SemesterContext';
+import SemesterBox from './components/SemesterBox';
+import { useContext } from 'react';
+import Sidebar from './components/Sidebar';
 
-export default function Home() {
+export default function Transcript() {
+  const { semesters } = useContext(SemesterContext);
+
   return (
-    <main className="flex h-full flex-col items-center justify-evenly gap-5 bg-gray-100 p-5 dark:bg-gray-900 sm:flex-row ">
-      <div className="flex size-64 flex-col items-center justify-center gap-4 rounded-2xl border-4 border-dashed bg-white p-6 dark:bg-black dark:text-white md:size-80 md:p-8">
-        <BsFileEarmarkArrowDown className="size-20 md:mb-4" />
-        <button className="h-auto w-full cursor-pointer rounded border-4 border-solid p-1.5"> Dosya Yükle </button>
-        <Link
-          href={'/transcript'}
-          className="flex h-auto w-full cursor-pointer justify-center rounded border-4 border-solid p-1.5"
-        >
-          Yarıyıl Ekle
-        </Link>
-      </div>
-
-      <div className="flex size-64 flex-col items-start justify-center gap-6 rounded-2xl border-4 border-solid bg-white p-6 dark:bg-black dark:text-white md:size-80 md:gap-8 md:p-8">
-        <ul className="list-inside list-disc">
-          <p className="mb-2 font-bold">Notlarınızı yüklemek için:</p>
-          <li>E-devlet Transkript</li>
-          <li>Text Dosyası</li>
-          <li>Screenshot</li>
-        </ul>
-
-        <ul className="list-inside list-disc">
-          <p className="mb-2 font-bold">Manuel eklemek için:</p>
-          <li>Yarıyıl Ekle Butonu</li>
-        </ul>
+    <main className="flex">
+      <Sidebar />
+      <div className="flex w-full flex-1 flex-col gap-3 bg-gray-100 px-8 py-4 dark:bg-gray-900">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
+          {semesters.map((_, index) => (
+            <SemesterBox key={index} semesterIndex={index} />
+          ))}
+        </div>
       </div>
     </main>
   );

@@ -4,7 +4,11 @@ export interface Course {
   credit: string;
 }
 
-
 export interface Semester {
-  courses: Course[]
+  courses: Course[];
+}
+
+export interface SemesterInfo {
+  credit: string | number;
+  gpa: string | number;
 }

@@ -1,2 +1,2 @@
-export const maxSemesterLength = 12;
+export const maxSemesterLength = 8;
 export const maxCourseLength = 6;

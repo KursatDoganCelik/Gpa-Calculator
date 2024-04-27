@@ -1,9 +1,9 @@
 import type { Course, Semester, SemesterInfo } from '@/config/types';
-import { calculateGPA } from '@/constants/CalculateGpa';
-import React, { PropsWithChildren, createContext, useState } from 'react';
+import { calculateGPA } from '@/lib/utils';
+import { PropsWithChildren, createContext, useEffect, useState } from 'react';
 
 export const SemesterContext = createContext({
-  semesters: [{ courses: [{ name: '', note: '4', credit: '' }] }],
+  semesters: [{ courses: [{ name: '', note: '', credit: '' }] }],
   addSemester: () => {},
   removeSemester: () => {},
   addCourse: (semesterIndex: number) => {},
@@ -14,31 +14,29 @@ export const SemesterContext = createContext({
     semesterIndex: number,
     courseIndex: number
   ) => {},
-  semesterInfos: [{ credit: 'Kredi', gpa: 'Dno' }] as SemesterInfo[],
-  totalCreditAndGpa: { credit: 'Kredi', gpa: 'Gno' } as SemesterInfo,
+  semesterCreditAndGpa: (semesterIndex: number) => {
+    return { credit: 0, gpa: 0 };
+  },
+  totalCreditAndGpa: () => {
+    return { totalCredit: 0, totalGpa: 0 };
+  },
 });
 
 const SemesterProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [semesters, setSemesters] = useState<Semester[]>([{ courses: [{ name: '', note: '4', credit: '' }] }]);
-  const [semesterInfos, setSemesterInfos] = useState<SemesterInfo[]>([{ credit: 'Kredi', gpa: 'Dno' }]);
-  const [totalCreditAndGpa, setTotalCreditandGpa] = useState<SemesterInfo>({ credit: 'Kredi', gpa: 'Gno' });
+  const [semesters, setSemesters] = useState<Semester[]>([{ courses: [{ name: '', note: '', credit: '' }] }]);
 
   const addSemester = () => {
-    const newSemester = { courses: [{ name: '', note: '4', credit: '' }] };
-    const newSemesterInfo = { credit: 'Kredi', gpa: 'Dno' };
-
+    const newSemester = { courses: [{ name: '', note: '', credit: '' }] };
     setSemesters((prev) => [...prev, newSemester]);
-    setSemesterInfos((prev) => [...prev, newSemesterInfo]);
   };
 
   const removeSemester = () => {
     setSemesters((prev) => prev.slice(0, -1));
-    setSemesterInfos((prev) => prev.slice(0, -1));
   };
 
   const addCourse = (semesterIndex: number) => {
     const updatedSemesters = [...semesters];
-    updatedSemesters[semesterIndex].courses.push({ name: '', note: '4', credit: '' });
+    updatedSemesters[semesterIndex].courses.push({ name: '', note: '', credit: '' });
     setSemesters(updatedSemesters);
   };
 
@@ -48,7 +46,6 @@ const SemesterProvider: React.FC<PropsWithChildren> = ({ children }) => {
       (_, index) => index !== courseIndex
     );
     setSemesters(updatedSemesters);
-    updateSemesterInfo(semesterIndex);
   };
 
   const handleCourseChange = (
@@ -60,42 +57,68 @@ const SemesterProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const updatedSemesters = [...semesters];
     updatedSemesters[semesterIndex].courses[courseIndex][field] = e.target.value;
     setSemesters(updatedSemesters);
-    updateSemesterInfo(semesterIndex);
   };
 
-  // calculate GPA and Credit for given semester
-  const updateSemesterInfo = (semesterIndex: number) => {
-    //check this semester is full
-    const isSemesterFull = semesters[semesterIndex].courses.every((course) => {
+  const semesterCreditAndGpa = (semesterIndex: number) => {
+    let credit = 0;
+    let gpa = 0;
+
+    const isSemesterFull = semesters[semesterIndex].courses.every((course: any) => {
       return Object.values(course).every((value) => (value as string).trim() !== '');
     });
 
-    //check all semester is full
+    if (isSemesterFull) {
+      credit = semesters[semesterIndex].courses.reduce((acc: any, course: any) => acc + Number(course.credit), 0);
+      gpa = calculateGPA(semesters[semesterIndex].courses);
+    }
+    return { credit, gpa };
+  };
+
+  const totalCreditAndGpa = () => {
+    let totalCredit = 0;
+    let totalGpa = 0;
+
     const isAllFull = semesters.every((semester) => {
       return semester.courses.every((course) => {
         return Object.values(course).every((value) => (value as string).trim() !== '');
       });
     });
 
-    if (isSemesterFull) {
-      const updatedSemesterInfos = [...semesterInfos];
-      const credit = semesters[semesterIndex].courses.reduce((acc, course) => acc + Number(course.credit), 0);
-      const gpa = calculateGPA(semesters[semesterIndex].courses);
-
-      updatedSemesterInfos[semesterIndex] = { credit: credit, gpa: gpa };
-      setSemesterInfos(updatedSemesterInfos);
-      if (isAllFull) {
-        const totalCredit = updatedSemesterInfos.reduce((acc, semester) => acc + Number(semester.credit), 0);
-        const totalGpa = calculateGPA(
-          semesters
-            .flat()
-            .map((semester) => semester.courses)
-            .flat()
-        );
-        setTotalCreditandGpa({ credit: totalCredit, gpa: totalGpa });
-      }
+    if (isAllFull) {
+      totalCredit = semesters.reduce((acc, semester) => {
+        return acc + semester.courses.reduce((acc, course) => acc + Number(course.credit), 0);
+      }, 0);
+      totalGpa = calculateGPA(
+        semesters
+          .flat()
+          .map((semester) => semester.courses)
+          .flat()
+      );
     }
+    return { totalCredit, totalGpa };
   };
+
+  useEffect(() => {
+    try {
+      const localStorageItem = localStorage.getItem('semesters');
+      if (localStorageItem) {
+        if (localStorageItem === JSON.stringify([{ courses: [{ name: '', note: '', credit: '' }] }])) {
+          return;
+        }
+        setSemesters(JSON.parse(localStorageItem));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('semesters', JSON.stringify(semesters));
+    } catch (error) {
+      console.error(error);
+    }
+  }, [JSON.stringify(semesters)]);
 
   return (
     <SemesterContext.Provider
@@ -106,7 +129,7 @@ const SemesterProvider: React.FC<PropsWithChildren> = ({ children }) => {
         addCourse,
         removeCourse,
         handleCourseChange,
-        semesterInfos,
+        semesterCreditAndGpa,
         totalCreditAndGpa,
       }}
     >

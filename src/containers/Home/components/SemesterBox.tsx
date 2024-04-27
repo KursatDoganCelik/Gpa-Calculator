@@ -3,6 +3,7 @@ import CourseBox from './CourseBox';
 import { BsPlusCircle } from 'react-icons/bs';
 import { useContext, useMemo } from 'react';
 import { SemesterContext } from '@/context/SemesterContext';
+import { maxCourseLength } from '@/config/boxLength';
 
 export default function SemesterBox({ semesterIndex }: { semesterIndex: number }) {
   const { semesters, addCourse } = useContext(SemesterContext);
@@ -13,7 +14,9 @@ export default function SemesterBox({ semesterIndex }: { semesterIndex: number }
         <p className="py-2 text-xl font-semibold">{semesterIndex! + 1}. Yarıyıl</p>
         <button
           className="flex size-8 items-center justify-center hover:text-green-500"
-          onClick={() => addCourse(semesterIndex)}
+          onClick={() => {
+            maxCourseLength > semesters[semesterIndex]?.courses.length && addCourse(semesterIndex);
+          }}
         >
           <BsPlusCircle size={16} />
         </button>
@@ -21,9 +24,9 @@ export default function SemesterBox({ semesterIndex }: { semesterIndex: number }
       <table className="w-full">
         <thead>
           <tr className="bg-gray-100 dark:bg-gray-900 ">
-            <th className="p-2 text-left">Ders Adı</th>
-            <th className="w-12 p-2 text-center">Not</th>
-            <th className="w-16 p-2 text-center">Kredi</th>
+            <th className="px-4 py-2 text-left">Ders Adı</th>
+            <th className="w-12 px-4 py-2 text-center">Not</th>
+            <th className="w-16 px-4 py-2 text-center">Kredi</th>
             <th className="w-8"></th>
           </tr>
         </thead>

@@ -10,8 +10,6 @@ export const calculateGPA = (courses: Course[]) => {
     weightedCredits += credit * +course.note;
     totalCredit += credit;
   });
-
   gpa = +(weightedCredits / totalCredit).toFixed(2);
-
   return gpa;
 };

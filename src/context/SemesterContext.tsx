@@ -20,10 +20,12 @@ export const SemesterContext = createContext({
   totalCreditAndGpa: () => {
     return { totalCredit: 0, totalGpa: 0 };
   },
+  isLoading: true,
 });
 
 const SemesterProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [semesters, setSemesters] = useState<Semester[]>([{ courses: [{ name: '', note: '', credit: '' }] }]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const addSemester = () => {
     const newSemester = { courses: [{ name: '', note: '', credit: '' }] };
@@ -99,17 +101,24 @@ const SemesterProvider: React.FC<PropsWithChildren> = ({ children }) => {
   };
 
   useEffect(() => {
-    try {
-      const localStorageItem = localStorage.getItem('semesters');
-      if (localStorageItem) {
-        if (localStorageItem === JSON.stringify([{ courses: [{ name: '', note: '', credit: '' }] }])) {
-          return;
+    const fetchData = async () => {
+      try {
+        const localStorageItem = await localStorage.getItem('semesters');
+        if (localStorageItem) {
+          if (localStorageItem === JSON.stringify([{ courses: [{ name: '', note: '', credit: '' }] }])) {
+            setIsLoading(false); // Veri alındığında isLoading durumunu false olarak günceller
+            return;
+          }
+          setSemesters(JSON.parse(localStorageItem));
+          setIsLoading(false); // Veri alındığında isLoading durumunu false olarak günceller
         }
-        setSemesters(JSON.parse(localStorageItem));
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false); // Hata oluştuğunda isLoading durumunu false olarak günceller
       }
-    } catch (error) {
-      console.error(error);
-    }
+    };
+
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -131,6 +140,7 @@ const SemesterProvider: React.FC<PropsWithChildren> = ({ children }) => {
         handleCourseChange,
         semesterCreditAndGpa,
         totalCreditAndGpa,
+        isLoading,
       }}
     >
       {children}

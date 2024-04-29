@@ -7,7 +7,7 @@ footer {
   @apply transition-colors duration-700;
 }
 main div {
-  @apply transition-colors duration-300;
+  @apply transition-colors duration-200;
 }
 
 .rm-arrow {

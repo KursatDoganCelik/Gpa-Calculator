@@ -1,9 +1,11 @@
 'use client';
 import CourseBox from './CourseBox';
 import { BsPlusCircle } from 'react-icons/bs';
-import { useContext, useMemo } from 'react';
+import { useContext } from 'react';
 import { SemesterContext } from '@/context/SemesterContext';
 import { maxCourseLength } from '@/config/boxLength';
+import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 export default function SemesterBox({ semesterIndex }: { semesterIndex: number }) {
   const { semesters, addCourse } = useContext(SemesterContext);
@@ -12,14 +14,25 @@ export default function SemesterBox({ semesterIndex }: { semesterIndex: number }
     <div className="min-h-[300px] bg-white p-1 dark:bg-black">
       <div className="flex items-center justify-between pl-2">
         <p className="py-2 text-xl font-semibold">{semesterIndex! + 1}. Yarıyıl</p>
-        <button
-          className="flex size-8 items-center justify-center hover:text-green-500"
-          onClick={() => {
-            maxCourseLength > semesters[semesterIndex]?.courses.length && addCourse(semesterIndex);
-          }}
-        >
-          <BsPlusCircle size={16} />
-        </button>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button
+              className="mr-[9px] flex h-fit items-center justify-center p-0 hover:text-green-500"
+              disabled={semesters[semesterIndex]?.courses.length >= maxCourseLength}
+              onClick={() => {
+                addCourse(semesterIndex);
+              }}
+            >
+              <BsPlusCircle size={16} />
+            </Button>
+          </TooltipTrigger>
+
+          {semesters[semesterIndex]?.courses.length >= maxCourseLength && (
+            <TooltipContent>
+              <p>Maksimum ders sayısına ulaştınız!</p>
+            </TooltipContent>
+          )}
+        </Tooltip>
       </div>
       <table className="w-full">
         <thead>

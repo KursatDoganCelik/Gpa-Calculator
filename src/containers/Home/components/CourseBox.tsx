@@ -14,7 +14,7 @@ export default function CourseBox({
   course: Course;
 }) {
   const { semesters, handleCourseChange, removeCourse } = useContext(SemesterContext);
-  const style = 'bg-transparent placeholder:text-gray-400';
+  const style = 'bg-transparent rounded-[6px] placeholder:text-gray-400';
 
   return (
     <tr className="even:bg-gray-100 dark:even:bg-gray-900">
@@ -26,7 +26,7 @@ export default function CourseBox({
           placeholder="Ders Adı"
           value={course.name}
           onChange={(e) => handleCourseChange(e, 'name', semesterIndex, courseIndex)}
-          className={`w-full pl-2 ${!course.name && 'ring-1 ring-red-500'} ${style}`}
+          className={`w-full pl-2 ${!course.name && 'placeholder:text-red-700'} ${style}`}
         />
       </td>
 
@@ -36,13 +36,13 @@ export default function CourseBox({
           autoComplete="off"
           value={course.note}
           onChange={(e) => handleCourseChange(e, 'note', semesterIndex, courseIndex)}
-          className={`rm-arrow w-12 text-center dark:bg-black dark:text-white ${!course.note && 'ring-1 ring-red-500'} ${style}`}
+          className={`rm-arrow w-12 text-center text-red-700  ${course.note && 'text-black dark:text-white'} ${style}`}
         >
           <option value="" hidden>
             Not
           </option>
           {Object.entries(NoteTypes.AA).map(([key, value]) => (
-            <option key={key} value={value}>
+            <option key={key} value={value} className="text-black dark:bg-black dark:text-white">
               {key}
             </option>
           ))}
@@ -58,7 +58,7 @@ export default function CourseBox({
           min={1}
           value={course.credit}
           onChange={(e) => handleCourseChange(e, 'credit', semesterIndex, courseIndex)}
-          className={`rm-arrow w-16 text-center ${!course.credit && 'ring-1 ring-red-500'} ${style}`}
+          className={`rm-arrow w-16 text-center ${!course.credit && 'placeholder:text-red-700'} ${style}`}
         />
       </td>
 

@@ -1,5 +1,5 @@
 import Home from '@/containers/Home';
 
-export default function Page() {
+export default async function Page() {
   return <Home />;
 }

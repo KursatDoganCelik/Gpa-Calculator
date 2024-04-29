@@ -8,8 +8,8 @@ export default function Sidebar() {
   const { semesters, addSemester, removeSemester, semesterCreditAndGpa, totalCreditAndGpa } =
     useContext(SemesterContext);
 
-  const [toggleCollapse, setToggleCollapse] = useState(false);
-  const [sidebarRender, setSidebarRender] = useState(false);
+  const [toggleCollapse, setToggleCollapse] = useState(true);
+  const [sidebarRender, setSidebarRender] = useState(true);
 
   const handleSidebarToggle = () => {
     setToggleCollapse(!toggleCollapse);

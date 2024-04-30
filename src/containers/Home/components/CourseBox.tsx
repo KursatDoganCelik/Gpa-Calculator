@@ -3,6 +3,7 @@ import { BsDashCircle } from 'react-icons/bs';
 import { Course } from '@/config/types';
 import { useContext } from 'react';
 import { SemesterContext } from '@/context/SemesterContext';
+import { Button } from '@/components/ui/button';
 
 export default function CourseBox({
   semesterIndex,
@@ -63,14 +64,15 @@ export default function CourseBox({
       </td>
 
       <td>
-        <button
+        <Button
           onClick={() => {
             semesters[semesterIndex]?.courses.length > 1 && removeCourse(courseIndex, semesterIndex);
           }}
-          className="flex size-8 items-center justify-center hover:text-red-500"
+          variant={'ghost'}
+          className="m-3 flex h-fit items-center justify-center p-0 hover:text-red-500"
         >
           <BsDashCircle size={16} />
-        </button>
+        </Button>
       </td>
     </tr>
   );

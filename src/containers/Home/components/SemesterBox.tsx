@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { SemesterContext } from '@/context/SemesterContext';
 import { maxCourseLength } from '@/config/boxLength';
 import { Button } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 export default function SemesterBox({ semesterIndex }: { semesterIndex: number }) {
   const { semesters, addCourse } = useContext(SemesterContext);
@@ -15,9 +15,10 @@ export default function SemesterBox({ semesterIndex }: { semesterIndex: number }
       <div className="flex items-center justify-between pl-2">
         <p className="py-2 text-xl font-semibold">{semesterIndex! + 1}. Yarıyıl</p>
         <Tooltip>
-          <TooltipTrigger>
+          <TooltipTrigger className="cursor-default">
             <Button
-              className="mr-[9px] flex h-fit items-center justify-center p-0 hover:text-green-500"
+              className="m-3 flex h-fit items-center justify-center p-0 hover:text-green-500"
+              variant={'ghost'}
               disabled={semesters[semesterIndex]?.courses.length >= maxCourseLength}
               onClick={() => {
                 addCourse(semesterIndex);

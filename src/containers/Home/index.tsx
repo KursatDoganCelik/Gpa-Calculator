@@ -5,21 +5,22 @@ import { useContext, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import { motion } from 'framer-motion';
 import { BsDashCircle, BsPlusCircle } from 'react-icons/bs';
+import MobileDrawer from './components/MobileDrawer';
 
 export default function Transcript() {
   const { semesters, isLoading } = useContext(SemesterContext);
 
   useEffect(() => {
+    // Pencere boyutu değiştiğinde sınıfı güncelle
     const updateColClass = () => {
       const semestersDiv = document.getElementById('semestersDiv');
       if (semestersDiv) {
         const divWidth = semestersDiv.offsetWidth;
         if (divWidth > 730) {
-          semestersDiv.classList.add('grid-cols-2');
-          semestersDiv.classList.remove('grid-cols-1');
-        } else {
           semestersDiv.classList.add('grid-cols-1');
-          semestersDiv.classList.remove('grid-cols-2');
+          semestersDiv.classList.add('sm:grid-cols-2');
+        } else {
+          semestersDiv.classList.remove('sm:grid-cols-2');
         }
       }
     };
@@ -27,8 +28,10 @@ export default function Transcript() {
     // İlk render'da ve pencere boyutu değiştiğinde sınıfı güncelle
     updateColClass();
     window.addEventListener('resize', updateColClass);
+    // Listener'ı kaldır burası cleanup fonksiyonu
     return () => window.removeEventListener('resize', updateColClass);
   }, []);
+
   if (isLoading) {
     return (
       <main className="flex">
@@ -97,11 +100,13 @@ export default function Transcript() {
 
   return (
     <main className="flex">
-      <Sidebar />
-      <div className="flex w-full flex-1 flex-col gap-3 bg-gray-100 px-8 py-4 dark:bg-gray-900">
+      <div className="hidden sm:block">
+        <Sidebar />
+      </div>
+      <div className="flex w-full flex-1 flex-col gap-3 bg-gray-100 px-1 pt-4 dark:bg-gray-900 sm:px-8 sm:py-4">
         <motion.ul
           id="semestersDiv"
-          className="grid gap-10 "
+          className="grid grid-cols-1 gap-10 sm:grid-cols-2 "
           variants={{
             visible: { transition: { staggerChildren: 0.08 } },
           }}
@@ -122,6 +127,9 @@ export default function Transcript() {
             </motion.li>
           ))}
         </motion.ul>
+        <div className="sticky bottom-0 flex h-fit w-full justify-center sm:hidden">
+          <MobileDrawer />
+        </div>
       </div>
     </main>
   );

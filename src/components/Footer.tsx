@@ -2,7 +2,7 @@ import { BsInstagram, BsGithub, BsLinkedin } from 'react-icons/bs';
 
 export default function Footer() {
   return (
-    <footer className="hidden sm:flex items-center justify-between bg-white p-4 text-black dark:bg-black dark:text-white md:px-8">
+    <footer className="hidden items-center justify-between bg-white p-4 text-black dark:bg-black dark:text-white sm:flex md:px-8">
       <p className="pr-2 text-center">
         <span className="font-bold">Copyright ©</span>2024, <span className="font-bold">Desgined by</span> Soligin
       </p>

@@ -1,6 +1,5 @@
 'use client';
 import { useState } from 'react';
-import { BsList, BsXLg } from 'react-icons/bs';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '/public/images/logo.png';
@@ -15,7 +14,11 @@ export default function Header() {
       <nav className="mx-auto flex items-center justify-between px-3 py-3 md:px-8">
         <Image className="size-12 rounded bg-white" src={logo} alt="Gno Calculator" />
 
-        <Button onClick={() => setMobileMenuOpen((prev) => !prev)} variant={'ghost'} className="focus:bg-transparent md:hidden">
+        <Button
+          onClick={() => setMobileMenuOpen((prev) => !prev)}
+          variant={'ghost'}
+          className="focus:bg-transparent md:hidden"
+        >
           <div className="relative flex w-5 flex-col gap-1">
             <div
               className={`absolute h-[2px] w-5 bg-black transition-all duration-1000 dark:bg-white ${mobileMenuOpen ? '-mt-0 rotate-[225deg]' : '-mt-1 rotate-0'}`}

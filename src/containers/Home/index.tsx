@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import { BsDashCircle, BsPlusCircle } from 'react-icons/bs';
 import MobileDrawer from './components/MobileDrawer';
 
-export default function Transcript() {
+export default function Home() {
   const { semesters, isLoading } = useContext(SemesterContext);
 
   useEffect(() => {
@@ -103,7 +103,7 @@ export default function Transcript() {
       <div className="hidden sm:block">
         <Sidebar />
       </div>
-      <div className="flex w-full flex-1 flex-col gap-3 bg-gray-100 px-1 pt-4 dark:bg-gray-900 sm:px-8 sm:py-4">
+      <div className="relative flex w-full flex-1 flex-col gap-3 bg-gray-100 px-1 pt-4 dark:bg-gray-900 sm:px-8 sm:py-4">
         <motion.ul
           id="semestersDiv"
           className="grid grid-cols-1 gap-10 sm:grid-cols-2 "
@@ -120,16 +120,15 @@ export default function Transcript() {
                 hidden: { opacity: 0, scale: 0.5 },
                 visible: { opacity: 1, scale: 1 },
               }}
-              transition={{ type: 'spring', stiffness: 260, damping: 15, duration: 1 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 16, duration: 1 }}
               key={index}
             >
               <SemesterBox semesterIndex={index} />
             </motion.li>
           ))}
         </motion.ul>
-        <div className="sticky bottom-0 flex h-fit w-full justify-center sm:hidden">
-          <MobileDrawer />
-        </div>
+
+        <MobileDrawer />
       </div>
     </main>
   );

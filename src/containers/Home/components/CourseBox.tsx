@@ -4,6 +4,7 @@ import { Course } from '@/config/types';
 import { useContext } from 'react';
 import { SemesterContext } from '@/context/SemesterContext';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 export default function CourseBox({
   semesterIndex,
@@ -43,7 +44,7 @@ export default function CourseBox({
             Not
           </option>
           {Object.entries(NoteTypes.AA).map(([key, value]) => (
-            <option key={key} value={value} className="text-black dark:bg-black dark:text-white">
+            <option key={key} value={value} className="text-center text-black dark:bg-black dark:text-white">
               {key}
             </option>
           ))}
@@ -64,15 +65,24 @@ export default function CourseBox({
       </td>
 
       <td>
-        <Button
-          onClick={() => {
-            semesters[semesterIndex]?.courses.length > 1 && removeCourse(courseIndex, semesterIndex);
-          }}
-          variant={'ghost'}
-          className="m-3 flex h-fit items-center justify-center p-0 hover:text-red-500"
-        >
-          <BsDashCircle size={16} />
-        </Button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              onClick={() => {
+                semesters[semesterIndex]?.courses.length > 1 && removeCourse(courseIndex, semesterIndex);
+              }}
+              variant={'ghost'}
+              className="m-3 flex h-fit items-center justify-center p-0 hover:text-red-500"
+            >
+              <BsDashCircle size={16} />
+            </Button>
+          </TooltipTrigger>
+          {semesters[semesterIndex]?.courses.length <= 1 && (
+            <TooltipContent>
+              <p>Yarıyılda en az 1 ders olmalı</p>
+            </TooltipContent>
+          )}
+        </Tooltip>
       </td>
     </tr>
   );

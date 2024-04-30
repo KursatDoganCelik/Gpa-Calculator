@@ -15,9 +15,9 @@ export default function SemesterBox({ semesterIndex }: { semesterIndex: number }
       <div className="flex items-center justify-between pl-2">
         <p className="py-2 text-xl font-semibold">{semesterIndex! + 1}. Yarıyıl</p>
         <Tooltip>
-          <TooltipTrigger className="cursor-default">
+          <TooltipTrigger asChild>
             <Button
-              className="m-3 flex h-fit items-center justify-center p-0 hover:text-green-500"
+              className="m-1.5 flex h-fit cursor-pointer items-center justify-center p-1.5 hover:text-green-500"
               variant={'ghost'}
               disabled={semesters[semesterIndex]?.courses.length >= maxCourseLength}
               onClick={() => {
@@ -27,10 +27,9 @@ export default function SemesterBox({ semesterIndex }: { semesterIndex: number }
               <BsPlusCircle size={16} />
             </Button>
           </TooltipTrigger>
-
           {semesters[semesterIndex]?.courses.length >= maxCourseLength && (
             <TooltipContent>
-              <p>Maksimum ders sayısına ulaştınız!</p>
+              <p>Yarıyılda en fazla {maxCourseLength} ders eklenebilir</p>
             </TooltipContent>
           )}
         </Tooltip>

@@ -3,7 +3,7 @@ import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
-import { Loader2Icon } from 'lucide-react';
+import { BsBrowserEdge } from 'react-icons/bs';
 
 const buttonVariants = cva(
   'inline-flex items-center justify-center gap-3 whitespace-nowrap rounded-md text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50',
@@ -48,7 +48,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={loading || disabled}
         {...props}
       >
-        {loading && <Loader2Icon size={20} className="mr-2 animate-spin text-white max-sm:size-5" />}
+        {loading && <BsBrowserEdge size={20} className="mr-2 animate-spin text-white max-sm:size-5" />}
         {props.children}
       </Comp>
     );

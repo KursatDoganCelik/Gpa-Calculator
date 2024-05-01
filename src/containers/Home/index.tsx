@@ -103,7 +103,7 @@ export default function Home() {
       <div className="hidden sm:block">
         <Sidebar />
       </div>
-      <div className="relative flex w-full flex-1 flex-col gap-3 bg-gray-100 px-1 pt-4 dark:bg-gray-900 sm:px-8 sm:py-4">
+      <div className="flex w-full flex-1 flex-col gap-3 bg-gray-100 px-1 pt-4 dark:bg-gray-900 sm:px-8 sm:py-4">
         <motion.ul
           id="semestersDiv"
           className="grid grid-cols-1 gap-10 sm:grid-cols-2 "

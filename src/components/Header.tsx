@@ -9,6 +9,12 @@ import { Button } from './ui/button';
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const navLink = [
+    { name: 'Home', href: '/' },
+    { name: 'Contact', href: '/' },
+    { name: 'Help', href: '/' },
+  ];
+
   return (
     <header>
       <nav className="mx-auto flex items-center justify-between px-3 py-3 md:px-8">
@@ -30,17 +36,13 @@ export default function Header() {
         </Button>
 
         <div className="hidden text-sm font-semibold leading-6 text-black dark:text-white md:flex md:gap-6">
-          <Link href="/" className="m-2 p-1">
-            Home
-          </Link>
-          <Link href="/" className="m-2 p-1">
-            Contact
-          </Link>
-          <Link href="/" className="m-2 p-1">
-            Help
-          </Link>
+          {navLink.map(({ name, href }, index) => (
+            <Link key={index} href={href} className="m-1.5 p-1.5">
+              {name}
+            </Link>
+          ))}
           <ThemeSwitch className="m-3" />
-          <Link href="/" className="m-2 p-1">
+          <Link href="/" className="m-1.5 p-1.5">
             Login
           </Link>
         </div>
@@ -52,25 +54,18 @@ export default function Header() {
         <ThemeSwitch />
         <div className="flex flex-col divide-y divide-solid">
           <div className="flex flex-col gap-3 py-3 pt-6">
-            <Link href="/" className="block rounded-md text-base font-semibold hover:bg-gray-500/20">
-              Home
-            </Link>
-
-            <Link href="/" className="block rounded-md text-base font-semibold hover:bg-gray-500/20">
-              Contact
-            </Link>
-            <Link href="/" className="block rounded-md text-base font-semibold hover:bg-gray-500/20">
-              Help
-            </Link>
+            {navLink.map(({ name, href }, index) => (
+              <Link key={index} href={href} className="m-1.5 p-1.5">
+                {name}
+              </Link>
+            ))}
           </div>
-          <div className="flex justify-between gap-3 pt-3 ">
-            <Button variant={'secondary'} className="w-full text-base font-semibold hover:bg-gray-500/20">
-              Giriş Yap
-            </Button>
-            <Button variant={'secondary'} className="w-full text-base font-semibold hover:bg-gray-500/20">
-              Kayıt Ol
-            </Button>
-          </div>
+          <Button variant={'secondary'} className="w-full text-base font-semibold hover:bg-gray-500/20">
+            Giriş Yap
+          </Button>
+          <Link href="/" className="block rounded-md text-base font-semibold hover:bg-gray-500/20">
+            Login
+          </Link>
         </div>
       </div>
     </header>

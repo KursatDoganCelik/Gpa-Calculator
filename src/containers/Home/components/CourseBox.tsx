@@ -71,8 +71,9 @@ export default function CourseBox({
               onClick={() => {
                 semesters[semesterIndex]?.courses.length > 1 && removeCourse(courseIndex, semesterIndex);
               }}
+              disabled={semesters[semesterIndex]?.courses.length <= 1}
               variant={'ghost'}
-              className="m-3 flex h-fit items-center justify-center p-0 hover:text-red-500"
+              className="m-3 flex h-fit cursor-pointer items-center justify-center p-0 hover:text-red-500"
             >
               <BsDashCircle size={16} />
             </Button>

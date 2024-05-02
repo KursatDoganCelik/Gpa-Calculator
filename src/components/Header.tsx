@@ -5,9 +5,12 @@ import Link from 'next/link';
 import logo from '/public/images/logo.png';
 import ThemeSwitch from './ThemeSwitch';
 import { Button } from './ui/button';
+import Login from './Login';
+import { useSession } from 'next-auth/react';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data: session } = useSession();
 
   const navLink = [
     { name: 'Home', href: '/' },
@@ -16,7 +19,7 @@ export default function Header() {
   ];
 
   return (
-    <header>
+    <header className="bg-white dark:bg-black">
       <nav className="mx-auto flex items-center justify-between px-3 py-3 md:px-8">
         <Image className="size-12 rounded bg-white" src={logo} alt="Gno Calculator" />
 
@@ -42,9 +45,7 @@ export default function Header() {
             </Link>
           ))}
           <ThemeSwitch className="m-3" />
-          <Link href="/" className="m-1.5 p-1.5">
-            Login
-          </Link>
+          <Login className="m-1.5 p-1.5" user={session?.user} type={session ? 'signout' : 'signin'} />
         </div>
       </nav>
 
@@ -59,13 +60,8 @@ export default function Header() {
                 {name}
               </Link>
             ))}
+            <Login className="m-1.5 p-1.5" user={session?.user} type={session ? 'signout' : 'signin'} />
           </div>
-          <Button variant={'secondary'} className="w-full text-base font-semibold hover:bg-gray-500/20">
-            Giriş Yap
-          </Button>
-          <Link href="/" className="block rounded-md text-base font-semibold hover:bg-gray-500/20">
-            Login
-          </Link>
         </div>
       </div>
     </header>

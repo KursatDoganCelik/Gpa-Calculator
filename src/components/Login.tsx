@@ -6,13 +6,13 @@ export default function Login({ className, user, type }: LoginProps) {
   return (
     <>
       {type === 'signout' ? (
-        <Link onClick={() => signOut({ callbackUrl: '/' })} className={className} href={`/api/auth/${type}`}>
+        <button onClick={() => signOut()} className={className}>
           Çıkış Yap ({user?.name?.split(' ')[0]})
-        </Link>
+        </button>
       ) : (
-        <Link onClick={() => signIn(undefined, { callbackUrl: '/' })} className={className} href={`/api/auth/${type}`}>
+        <button onClick={() => signIn(undefined, { callbackUrl: '/' })} className={className}>
           Giriş Yap
-        </Link>
+        </button>
       )}
     </>
   );

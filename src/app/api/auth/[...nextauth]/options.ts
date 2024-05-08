@@ -1,8 +1,15 @@
 import type { NextAuthOptions } from 'next-auth';
 import GitHubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import prisma from '@/lib/db';
+import { compare } from 'bcrypt';
 
 export const options: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
+  pages: {
+    signIn: '/login',
+  },
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_ID as string,
@@ -16,6 +23,11 @@ export const options: NextAuthOptions = {
           type: 'text',
           placeholder: 'Username',
         },
+        email: {
+          label: 'Email:',
+          type: 'email',
+          placeholder: 'Email',
+        },
         password: {
           label: 'Password:',
           type: 'password',
@@ -23,15 +35,33 @@ export const options: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        // Dummy Data
-        const user = { id: '1', name: 'qwe', password: 'qweasd' };
-
-        if (credentials?.username === user.name && credentials?.password === user.password) {
-          return user;
-        } else {
+        if (!credentials?.email || !credentials.password) {
           return null;
         }
+
+        const user = await prisma.user.findUnique({
+          where: {
+            email: credentials.email,
+          },
+        });
+
+        if (!user) {
+          return null;
+        }
+
+        const isPasswordValid = await compare(credentials.password, user.password);
+
+        if (!isPasswordValid) {
+          return null;
+        }
+
+        return user;
       },
     }),
   ],
+  session: {
+    strategy: 'jwt',
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+  debug: process.env.NODE_ENV === 'development',
 };

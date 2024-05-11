@@ -2,14 +2,17 @@
 import { useContext, useState } from 'react';
 import { BsChevronLeft } from 'react-icons/bs';
 import { SemesterContext } from '@/context/SemesterContext';
-import ManagerButtons from './ManagerButtons';
+import { SaveCourseButton, SemesterManager } from './ManagerButtons';
+import { useSession } from 'next-auth/react';
 
 export default function Sidebar() {
-  const { semesters, addSemester, removeSemester, semesterCreditAndGpa, totalCreditAndGpa } =
-    useContext(SemesterContext);
+  const { semesters, semesterCreditAndGpa, totalCreditAndGpa } = useContext(SemesterContext);
 
-  const [toggleCollapse, setToggleCollapse] = useState(true);
-  const [sidebarRender, setSidebarRender] = useState(true);
+  const { data: session } = useSession();
+  const email = session?.user?.email;
+
+  const [toggleCollapse, setToggleCollapse] = useState(false);
+  const [sidebarRender, setSidebarRender] = useState(false);
 
   const handleSidebarToggle = () => {
     setToggleCollapse(!toggleCollapse);
@@ -24,8 +27,9 @@ export default function Sidebar() {
       style={{ transition: 'width 500ms cubic-bezier(.8,.2,.8,.7) 0s ' }}
     >
       {!sidebarRender && (
-        <div className="p-2">
-          <ManagerButtons />
+        <div className="p-2 text-center">
+          <SemesterManager />
+
           <table className="w-full">
             <thead>
               <tr className="bg-gray-100 text-center dark:bg-gray-900 ">
@@ -55,9 +59,9 @@ export default function Sidebar() {
               </tr>
             </tfoot>
           </table>
+          {email && <SaveCourseButton email={email} />}
         </div>
       )}
-
       <button
         className={`absolute -right-6 top-[46%] rounded-r-full bg-white px-1 py-4 dark:bg-black`}
         onClick={handleSidebarToggle}

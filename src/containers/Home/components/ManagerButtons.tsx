@@ -1,4 +1,3 @@
-'use client';
 import { useContext } from 'react';
 import { BsPlusCircle, BsDashCircle } from 'react-icons/bs';
 import { SemesterContext } from '@/context/SemesterContext';
@@ -6,7 +5,7 @@ import { maxSemesterLength } from '@/config/boxLength';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
-export default function ManagerButtons() {
+const SemesterManager = () => {
   const { semesters, addSemester, removeSemester } = useContext(SemesterContext);
 
   return (
@@ -54,4 +53,42 @@ export default function ManagerButtons() {
       </div>
     </div>
   );
-}
+};
+
+const SaveCourseButton = ({ email }: { email: string }) => {
+  const { semesters, isAllSemesterFull } = useContext(SemesterContext);
+
+  const saveCourses = () => {
+    fetch('/api/saveCourses', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, semesters }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  };
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          className="m-2 h-fit px-3 py-1 text-base font-semibold hover:bg-[#177013] hover:text-white"
+          variant={'default'}
+          disabled={!isAllSemesterFull}
+          onClick={saveCourses}
+        >
+          Kaydet
+        </Button>
+      </TooltipTrigger>
+      {!isAllSemesterFull && (
+        <TooltipContent>
+          <p>Boş ders bilgisi mevcut</p>
+        </TooltipContent>
+      )}
+    </Tooltip>
+  );
+};
+
+export { SemesterManager, SaveCourseButton };

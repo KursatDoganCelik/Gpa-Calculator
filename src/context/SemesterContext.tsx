@@ -1,9 +1,10 @@
-import type { Course, Semester, SemesterInfo } from '@/config/types';
+import type { Course, Semester } from '@/config/types';
 import { calculateGPA } from '@/lib/utils';
 import { PropsWithChildren, createContext, useEffect, useState } from 'react';
 
 export const SemesterContext = createContext({
   semesters: [{ courses: [{ name: '', note: '', credit: '' }] }],
+  setSemesters: (semesters: Semester[]) => {},
   addSemester: () => {},
   removeSemester: () => {},
   addCourse: (semesterIndex: number) => {},
@@ -17,15 +18,14 @@ export const SemesterContext = createContext({
   semesterCreditAndGpa: (semesterIndex: number) => {
     return { credit: 0, gpa: 0 };
   },
+  isAllSemesterFull: false,
   totalCreditAndGpa: () => {
     return { totalCredit: 0, totalGpa: 0 };
   },
-  isLoading: true,
 });
 
 const SemesterProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [semesters, setSemesters] = useState<Semester[]>([{ courses: [{ name: '', note: '', credit: '' }] }]);
-  const [isLoading, setIsLoading] = useState(true);
 
   const addSemester = () => {
     const newSemester = { courses: [{ name: '', note: '', credit: '' }] };
@@ -76,17 +76,15 @@ const SemesterProvider: React.FC<PropsWithChildren> = ({ children }) => {
     return { credit, gpa };
   };
 
+  const isAllSemesterFull = semesters.every((semester) =>
+    semester.courses.every((course) => Object.values(course).every((value) => (value as string).trim() !== ''))
+  );
+
   const totalCreditAndGpa = () => {
     let totalCredit = 0;
     let totalGpa = 0;
 
-    const isAllFull = semesters.every((semester) => {
-      return semester.courses.every((course) => {
-        return Object.values(course).every((value) => (value as string).trim() !== '');
-      });
-    });
-
-    if (isAllFull) {
+    if (isAllSemesterFull) {
       totalCredit = semesters.reduce((acc, semester) => {
         return acc + semester.courses.reduce((acc, course) => acc + Number(course.credit), 0);
       }, 0);
@@ -100,47 +98,19 @@ const SemesterProvider: React.FC<PropsWithChildren> = ({ children }) => {
     return { totalCredit, totalGpa };
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const localStorageItem = await localStorage.getItem('semesters');
-        if (localStorageItem) {
-          if (localStorageItem === JSON.stringify([{ courses: [{ name: '', note: '', credit: '' }] }])) {
-            setIsLoading(false); // Veri alındığında isLoading durumunu false olarak günceller
-            return;
-          }
-          setSemesters(JSON.parse(localStorageItem));
-          setIsLoading(false); // Veri alındığında isLoading durumunu false olarak günceller
-        }
-      } catch (error) {
-        console.error(error);
-        setIsLoading(false); // Hata oluştuğunda isLoading durumunu false olarak günceller
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem('semesters', JSON.stringify(semesters));
-    } catch (error) {
-      console.error(error);
-    }
-  }, [JSON.stringify(semesters)]);
-
   return (
     <SemesterContext.Provider
       value={{
         semesters,
+        setSemesters,
         addSemester,
         removeSemester,
         addCourse,
         removeCourse,
         handleCourseChange,
         semesterCreditAndGpa,
+        isAllSemesterFull,
         totalCreditAndGpa,
-        isLoading,
       }}
     >
       {children}

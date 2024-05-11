@@ -1,4 +1,3 @@
-'use client';
 import CourseBox from './CourseBox';
 import { BsPlusCircle } from 'react-icons/bs';
 import { useContext } from 'react';

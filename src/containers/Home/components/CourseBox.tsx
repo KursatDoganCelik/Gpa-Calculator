@@ -38,7 +38,7 @@ export default function CourseBox({
           autoComplete="off"
           value={course.note}
           onChange={(e) => handleCourseChange(e, 'note', semesterIndex, courseIndex)}
-          className={`rm-arrow w-12 text-center text-red-700  ${course.note && 'text-black dark:text-white'} ${style}`}
+          className={`rm-arrow w-12 text-center ${course.note ? 'text-black dark:text-white' : 'text-red-700'} ${style}`}
         >
           <option value="" hidden>
             Not

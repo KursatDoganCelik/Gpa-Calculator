@@ -35,8 +35,8 @@ export const options: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials.password) {
-          return null;
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error('Email and password required');
         }
 
         const user = await prisma.user.findUnique({
@@ -45,14 +45,14 @@ export const options: NextAuthOptions = {
           },
         });
 
-        if (!user) {
-          return null;
+        if (!user || !user.password) {
+          throw new Error('Email does not exist');
         }
 
-        const isPasswordValid = await compare(credentials.password, user.password);
+        const isCorrectPassword = await compare(credentials.password, user.password);
 
-        if (!isPasswordValid) {
-          return null;
+        if (!isCorrectPassword) {
+          throw new Error('Incorrect password');
         }
 
         return user;
@@ -62,6 +62,8 @@ export const options: NextAuthOptions = {
   session: {
     strategy: 'jwt',
   },
+  jwt: {
+    secret: process.env.JWT_SECRET,
+  },
   secret: process.env.NEXTAUTH_SECRET,
-  debug: process.env.NODE_ENV === 'development',
 };

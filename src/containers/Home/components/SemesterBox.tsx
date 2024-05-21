@@ -5,7 +5,6 @@ import { SemesterContext } from '@/context/SemesterContext';
 import { maxCourseLength } from '@/config/boxLength';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { toast } from 'react-toastify';
 
 export default function SemesterBox({ semesterIndex }: { semesterIndex: number }) {
   const { semesters, addCourse } = useContext(SemesterContext);

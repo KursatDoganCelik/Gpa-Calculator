@@ -4,6 +4,8 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Providers } from './providers';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,11 +21,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
-      <body className="grid min-h-screen grid-rows-[auto_1fr_auto] bg-white dark:bg-black">
+      <body className="relative grid min-h-screen grid-rows-[auto_1fr_auto] bg-white dark:bg-black">
         <Providers>
           <Header />
           {children}
           <Footer />
+          <ToastContainer />
         </Providers>
       </body>
     </html>

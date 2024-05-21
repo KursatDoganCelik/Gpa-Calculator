@@ -1,9 +1,11 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { BsPlusCircle, BsDashCircle } from 'react-icons/bs';
 import { SemesterContext } from '@/context/SemesterContext';
 import { maxSemesterLength } from '@/config/boxLength';
 import { Button } from '@/components/ui/button';
+import { NoteTypes } from '@/constants/NoteTypes';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { toast } from 'react-toastify';
 
 const SemesterManager = () => {
   const { semesters, addSemester, removeSemester } = useContext(SemesterContext);
@@ -55,19 +57,85 @@ const SemesterManager = () => {
   );
 };
 
+let noteType: string = 'Aa';
+const NoteType = ({ email }: { email: string | null | undefined }) => {
+  const { handleNoteTypeChange } = useContext(SemesterContext);
+  const [selectedNoteType, setSelectedNoteType] = useState('Aa');
+
+  useEffect(() => {
+    if (email) {
+      fetch(`/api/getNoteType?email=${email}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          noteType = data.noteType;
+          setSelectedNoteType(data.noteType);
+          handleNoteTypeChange({ target: { value: data.noteType } } as React.ChangeEvent<HTMLSelectElement>);
+        });
+    }
+  }, [email]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newNoteType = e.target.value;
+    setSelectedNoteType(newNoteType);
+    handleNoteTypeChange(e);
+
+    // set global variable for saveCourses function
+    noteType = newNoteType;
+  };
+
+  const showNoteType = (noteType: string) => {
+    switch (noteType) {
+      case 'Aa':
+        return 'AA BA BB';
+      case 'Ax':
+        return 'A+ A A-';
+      case 'A1':
+        return 'A1 A2 A3';
+      case 'Ab':
+        return 'AA AB BA';
+      default:
+        return '';
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-center gap-2 pb-2 ">
+      <p className="text-base font-medium">Not Tipi</p>
+      <select
+        name="note"
+        autoComplete="off"
+        value={selectedNoteType}
+        onChange={handleChange}
+        className="rm-arrow w-[88px] rounded-md border border-gray-300 py-1 text-center dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
+      >
+        {Object.keys(NoteTypes).map((noteType) => (
+          <option key={noteType} value={noteType} className="">
+            {showNoteType(noteType)}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+};
+
 const SaveCourseButton = ({ email }: { email: string }) => {
   const { semesters, isAllSemesterFull } = useContext(SemesterContext);
 
-  const saveCourses = () => {
-    fetch('/api/saveCourses', {
+  const saveCourses = async () => {
+    const res = await fetch('/api/saveCourses', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email, semesters }),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+      body: JSON.stringify({ email, semesters, noteType }),
+    });
+
+    res?.ok ? toast.success(await res.text()) : toast.error(await res.text());
   };
 
   return (
@@ -91,4 +159,4 @@ const SaveCourseButton = ({ email }: { email: string }) => {
   );
 };
 
-export { SemesterManager, SaveCourseButton };
+export { SemesterManager, NoteType, SaveCourseButton };

@@ -1,20 +1,24 @@
 'use client';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
+  const router = useRouter();
   const [data, setData] = useState({
     email: '',
     password: '',
   });
 
-  const loginUser = async (e: any) => {
+  const loginUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    signIn('credentials', {
+    const res = await signIn('credentials', {
       ...data,
-      redirect: true,
-      callbackUrl: '/',
+      redirect: false,
     });
+
+    res?.ok ? (toast.success('Login successful'), router.push('/')) : toast.error(res?.error);
   };
 
   return (

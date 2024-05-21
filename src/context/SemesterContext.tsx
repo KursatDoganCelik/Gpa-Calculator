@@ -1,9 +1,11 @@
-import type { Course, Semester } from '@/config/types';
+import type { Course, NoteType, Semester } from '@/config/types';
+import { NoteTypes } from '@/constants/NoteTypes';
 import { calculateGPA } from '@/lib/utils';
-import { PropsWithChildren, createContext, useEffect, useState } from 'react';
+import { PropsWithChildren, createContext, useState } from 'react';
 
 export const SemesterContext = createContext({
   semesters: [{ courses: [{ name: '', note: '', credit: '' }] }],
+  noteTypes: NoteTypes.Aa,
   setSemesters: (semesters: Semester[]) => {},
   addSemester: () => {},
   removeSemester: () => {},
@@ -15,6 +17,7 @@ export const SemesterContext = createContext({
     semesterIndex: number,
     courseIndex: number
   ) => {},
+  handleNoteTypeChange: (e: React.ChangeEvent<HTMLSelectElement>) => {},
   semesterCreditAndGpa: (semesterIndex: number) => {
     return { credit: 0, gpa: 0 };
   },
@@ -26,6 +29,7 @@ export const SemesterContext = createContext({
 
 const SemesterProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [semesters, setSemesters] = useState<Semester[]>([{ courses: [{ name: '', note: '', credit: '' }] }]);
+  const [noteTypes, setNoteTypes] = useState<NoteType[]>(NoteTypes.Aa);
 
   const addSemester = () => {
     const newSemester = { courses: [{ name: '', note: '', credit: '' }] };
@@ -61,16 +65,20 @@ const SemesterProvider: React.FC<PropsWithChildren> = ({ children }) => {
     setSemesters(updatedSemesters);
   };
 
+  const handleNoteTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setNoteTypes(NoteTypes[e.target.value as keyof typeof NoteTypes]);
+  };
+
   const semesterCreditAndGpa = (semesterIndex: number) => {
     let credit = 0;
     let gpa = 0;
 
-    const isSemesterFull = semesters[semesterIndex].courses.every((course: any) => {
+    const isSemesterFull = semesters[semesterIndex].courses.every((course) => {
       return Object.values(course).every((value) => (value as string).trim() !== '');
     });
 
     if (isSemesterFull) {
-      credit = semesters[semesterIndex].courses.reduce((acc: any, course: any) => acc + Number(course.credit), 0);
+      credit = semesters[semesterIndex].courses.reduce((acc, course) => acc + Number(course.credit), 0);
       gpa = calculateGPA(semesters[semesterIndex].courses);
     }
     return { credit, gpa };
@@ -102,12 +110,14 @@ const SemesterProvider: React.FC<PropsWithChildren> = ({ children }) => {
     <SemesterContext.Provider
       value={{
         semesters,
+        noteTypes,
         setSemesters,
         addSemester,
         removeSemester,
         addCourse,
         removeCourse,
         handleCourseChange,
+        handleNoteTypeChange,
         semesterCreditAndGpa,
         isAllSemesterFull,
         totalCreditAndGpa,

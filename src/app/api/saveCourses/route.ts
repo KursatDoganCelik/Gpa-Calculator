@@ -1,21 +1,29 @@
 import { Semester, UserCourses } from '@/config/types';
 import prisma from '@/lib/db';
-import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
     const res = await request.json();
-    const { email, semesters } = res;
+    const { email, semesters, noteType } = res;
 
     const user = await prisma.user.findUnique({
       where: {
-        email: email,
+        email,
       },
     });
 
     if (!user) {
       throw new Error('Kullanıcı bulunamadı.');
     }
+
+    await prisma.user.update({
+      where: {
+        email,
+      },
+      data: {
+        noteType,
+      },
+    });
 
     const userCourses: UserCourses[] = [];
 
@@ -39,9 +47,9 @@ export async function POST(request: NextRequest) {
     await prisma.courses.createMany({
       data: userCourses,
     });
-    return NextResponse.json({ message: 'Dersler başarıyla eklendi.' }, { status: 200 });
+    return Response.json('Dersler başarıyla güncellendi', { status: 200 });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: 'Dersler eklenirken bir hata oluştu.' }, { status: 500 });
+    return Response.json('Dersler eklenirken bir hata oluştu', { status: 500 });
   }
 }

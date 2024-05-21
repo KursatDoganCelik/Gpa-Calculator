@@ -27,3 +27,8 @@ export interface UserCourses {
   courseCredit: number;
   userId: string;
 }
+
+export interface NoteType {
+  note: string;
+  credit: number;
+}

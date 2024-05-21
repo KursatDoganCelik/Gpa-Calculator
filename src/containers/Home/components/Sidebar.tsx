@@ -2,14 +2,10 @@
 import { useContext, useState } from 'react';
 import { BsChevronLeft } from 'react-icons/bs';
 import { SemesterContext } from '@/context/SemesterContext';
-import { SaveCourseButton, SemesterManager } from './ManagerButtons';
-import { useSession } from 'next-auth/react';
+import { SaveCourseButton, NoteType, SemesterManager } from './ManagerButtons';
 
-export default function Sidebar() {
+export default function Sidebar({ email }: { email: string | null | undefined }) {
   const { semesters, semesterCreditAndGpa, totalCreditAndGpa } = useContext(SemesterContext);
-
-  const { data: session } = useSession();
-  const email = session?.user?.email;
 
   const [toggleCollapse, setToggleCollapse] = useState(false);
   const [sidebarRender, setSidebarRender] = useState(false);
@@ -17,8 +13,8 @@ export default function Sidebar() {
   const handleSidebarToggle = () => {
     setToggleCollapse(!toggleCollapse);
     toggleCollapse
-      ? setTimeout(() => setSidebarRender((prev) => !prev), 420)
-      : setTimeout(() => setSidebarRender((prev) => !prev), 250);
+      ? setTimeout(() => setSidebarRender((prev) => !prev), 440)
+      : setTimeout(() => setSidebarRender((prev) => !prev), 220);
   };
 
   return (
@@ -29,7 +25,7 @@ export default function Sidebar() {
       {!sidebarRender && (
         <div className="p-2 text-center">
           <SemesterManager />
-
+          <NoteType email={email} />
           <table className="w-full">
             <thead>
               <tr className="bg-gray-100 text-center dark:bg-gray-900 ">

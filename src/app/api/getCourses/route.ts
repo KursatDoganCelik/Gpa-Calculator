@@ -1,12 +1,14 @@
 import { Semester } from '@/config/types';
-import prisma from './db';
-import { NextResponse } from 'next/server';
+import prisma from '@/lib/db';
 
-export default async function getUserCourses(email: string) {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const email = searchParams.get('email');
+
     const user = await prisma.user.findUnique({
       where: {
-        email: email,
+        email: email as string,
       },
     });
 
@@ -46,9 +48,9 @@ export default async function getUserCourses(email: string) {
       });
     });
 
-    return clientSemesters;
+    return Response.json({ semesters: clientSemesters }, { status: 200 });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: 'Dersler eklenirken bir hata oluştu.' }, { status: 500 });
+    return Response.json({ error: 'Dersler eklenirken bir hata oluştu.' }, { status: 500 });
   }
 }

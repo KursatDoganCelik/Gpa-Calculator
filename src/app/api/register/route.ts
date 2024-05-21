@@ -1,13 +1,12 @@
 import prisma from '@/lib/db';
 import { hash } from 'bcrypt';
-import { NextResponse } from 'next/server';
 
-export async function POST(req: any) {
-  const body = await req.json();
+export async function POST(request: Request) {
+  const body = await request.json();
   const { email, password, name } = body;
 
   if (!email || !password || !name) {
-    return new NextResponse('Missing fields', { status: 400 });
+    return new Response('Missing fields', { status: 400 });
   }
 
   const user = await prisma.user.findUnique({
@@ -17,7 +16,7 @@ export async function POST(req: any) {
   });
 
   if (user) {
-    return new NextResponse('User already exists', { status: 400 });
+    return new Response('User already exists', { status: 400 });
   }
 
   const hashedPassword = await hash(password, 10);
@@ -27,8 +26,9 @@ export async function POST(req: any) {
       email,
       password: hashedPassword,
       name,
+      noteType: 'Aa',
     },
   });
 
-  return NextResponse.json(newUser);
+  return Response.json(newUser);
 }

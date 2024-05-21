@@ -15,7 +15,7 @@ export default function CourseBox({
   courseIndex: number;
   course: Course;
 }) {
-  const { semesters, handleCourseChange, removeCourse } = useContext(SemesterContext);
+  const { semesters, noteTypes, handleCourseChange, removeCourse } = useContext(SemesterContext);
   const style = 'bg-transparent rounded-[6px] placeholder:text-gray-400';
 
   return (
@@ -43,9 +43,9 @@ export default function CourseBox({
           <option value="" hidden>
             Not
           </option>
-          {Object.entries(NoteTypes.AA).map(([key, value]) => (
-            <option key={key} value={value} className="text-center text-black dark:bg-black dark:text-white">
-              {key}
+          {noteTypes.map((note, index) => (
+            <option key={index} value={note.credit} className="text-center text-black dark:bg-black dark:text-white">
+              {note.note}
             </option>
           ))}
         </select>

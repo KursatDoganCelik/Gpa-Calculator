@@ -30,7 +30,9 @@ export default function Home() {
 
   return (
     <main className="flex">
-      <Sidebar email={email} />
+      <div className="hidden sm:block">
+        <Sidebar email={email} />
+      </div>
       <div className="w-full bg-gray-100 px-2 py-4 dark:bg-gray-900 sm:px-8 md:py-8">
         <motion.ul
           id="semestersDiv"
@@ -56,7 +58,9 @@ export default function Home() {
           ))}
         </motion.ul>
 
-        <MobileDrawer />
+        <div className="fixed bottom-1 flex h-fit w-full justify-center sm:hidden">
+          <MobileDrawer email={email} />
+        </div>
       </div>
     </main>
   );

@@ -13,9 +13,8 @@ export default function Header() {
   const { data: session } = useSession();
 
   const navLink = [
-    { name: 'Home', href: '/' },
-    { name: 'Contact', href: '/contact' },
-    { name: 'Help', href: '/' },
+    { name: 'Anasayfa', href: '/' },
+    { name: 'Yardım', href: '/help' },
   ];
 
   return (
@@ -50,7 +49,7 @@ export default function Header() {
       </nav>
 
       <div
-        className={`top-50 absolute right-0 z-10 overflow-hidden ${mobileMenuOpen ? 'w-80 px-6 py-4' : 'w-0 p-0'} rounded bg-white transition-all duration-1000  dark:bg-black md:hidden`}
+        className={`top-50 absolute right-0 z-10 overflow-hidden ${mobileMenuOpen ? 'w-80 px-6 py-4' : 'w-0 p-0'} rounded bg-white ring-2 ring-gray-200 transition-all duration-500 ease-in dark:bg-black dark:ring-gray-800 md:hidden`}
       >
         <ThemeSwitch />
         <div className="flex flex-col divide-y divide-solid">
